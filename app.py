@@ -1,5 +1,7 @@
 import random
 import streamlit as st
+#ADDED: Importing the check_guess function from logic_utils.py to use it in this file
+from logic_utils import check_guess
 
 def get_range_for_difficulty(difficulty: str):
     if difficulty == "Easy":
@@ -27,24 +29,6 @@ def parse_guess(raw: str):
         return False, None, "That is not a number."
 
     return True, value, None
-
-
-def check_guess(guess, secret):
-    if guess == secret:
-        return "Win", "🎉 Correct!"
-
-    try:
-        if guess > secret:
-            return "Too High", "📈 Go HIGHER!"
-        else:
-            return "Too Low", "📉 Go LOWER!"
-    except TypeError:
-        g = str(guess)
-        if g == secret:
-            return "Win", "🎉 Correct!"
-        if g > secret:
-            return "Too High", "📈 Go HIGHER!"
-        return "Too Low", "📉 Go LOWER!"
 
 
 def update_score(current_score: int, outcome: str, attempt_number: int):
@@ -83,11 +67,12 @@ attempt_limit_map = {
     "Hard": 5,
 }
 attempt_limit = attempt_limit_map[difficulty]
-
+ 
 low, high = get_range_for_difficulty(difficulty)
 
 st.sidebar.caption(f"Range: {low} to {high}")
 st.sidebar.caption(f"Attempts allowed: {attempt_limit}")
+# FIXME: Secret number does not follow the difficulty range. (FIXED with ai assistance)
 
 if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
@@ -105,9 +90,9 @@ if "history" not in st.session_state:
     st.session_state.history = []
 
 st.subheader("Make a guess")
-
+# FIXME: Guess prompt is harcoded to 1-100 instead of using the range based on difficulty (FIXED using ai mode)
 st.info(
-    f"Guess a number between 1 and 100. "
+    f"Guess a number between {low} and {high}. "
     f"Attempts left: {attempt_limit - st.session_state.attempts}"
 )
 
@@ -130,10 +115,11 @@ with col2:
     new_game = st.button("New Game 🔁")
 with col3:
     show_hint = st.checkbox("Show hint", value=True)
-
+# FIXME: New game ignores selected difficulty by using 1-100
+# FIX: Fixed the error stated above by using the correct range  with ai assitance
 if new_game:
     st.session_state.attempts = 0
-    st.session_state.secret = random.randint(1, 100)
+    st.session_state.secret = random.randint(low, high)
     st.success("New game started.")
     st.rerun()
 

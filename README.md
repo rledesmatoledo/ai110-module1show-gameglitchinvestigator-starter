@@ -26,28 +26,35 @@ It wrote the code, ran away, and now the game is unplayable.
 ## 📝 Document Your Experience
 
 - [ ] Describe the game's purpose.
+The purpose of the game is to let users guess a random generated number while receiving Lower or Higher hints.
 - [ ] Detail which bugs you found.
+   - The lower and higher hints were reversed.
+   - The difficulty was always 1-100 no matter the mode change.
 - [ ] Explain what fixes you applied.
+ - Refactored check_guess into logic_utils.py.
+ - Corrected the higher/lower hint logic.
+ - Fixed the difficulty prompt.
 
 ## 📸 Demo Walkthrough
 
 Describe your fixed game in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. User enters a guess of 80
+2. Game returns "Go Lower"
+3. User enters another guess of 70
+4. Game returns Go Higher
+5. Game ends after correct guess -> oututs score
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
 
 ## 🧪 Test Results
 
-```
-# Paste your pytest output here, e.g.:
-# pytest tests/
-# ========================= X passed in 0.XXs =========================
-```
+========================================================================================= test session starts =========================================================================================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0
+collected 5 items                                                                                                                                                                                    
+tests/test_game_logic.py .....                                                                                                                                                                  [100%]
+
+========================================================================================== 5 passed in 0.00s ==========================================================================================
 
 ## 🚀 Stretch Features
 
